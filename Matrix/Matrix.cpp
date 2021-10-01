@@ -8,7 +8,7 @@ int CheckTypeInt()
     gets_s(per);
     while (strlen(per) == 0)
     {
-        printf("An incorrect value was entered. Please try again: ");
+        cout << "An incorrect value was entered. Please try again: ";
         gets_s(per);
     }
     for (int i = 0; i < (int)strlen(per); i++)
@@ -16,11 +16,11 @@ int CheckTypeInt()
         if (per[i] == '-' && i == 0) i++;
         if (per[i] < '0' || per[i] > '9')
         {
-            printf("An incorrect value was entered. Please try again: ");
+            cout << "An incorrect value was entered. Please try again: ";
             gets_s(per);
             while (strlen(per) == 0)
             {
-                printf("An incorrect value was entered. Please try again: ");
+                cout << "An incorrect value was entered. Please try again: ";
                 gets_s(per);
             }
             i = -1;
@@ -36,7 +36,7 @@ double CheckTypeDouble()
     int kol_t = 0;
     while (strlen(per) == 0)
     {
-        printf("An incorrect value was entered. Please try again: ");
+        cout << "An incorrect value was entered. Please try again: ";
         gets_s(per);
     }
     for (int i = 0; i < (int)strlen(per); i++) 
@@ -49,12 +49,12 @@ double CheckTypeDouble()
         }
         if (per[i] < '0' || per[i] > '9' || kol_t > 1)
         {
-            printf("An incorrect value was entered. Please try again: ");
+            cout << "An incorrect value was entered. Please try again: ";
             gets_s(per);
             kol_t = 0;
             while (strlen(per) == 0)
             {
-                printf("An incorrect value was entered. Please try again: ");
+                cout << "An incorrect value was entered. Please try again: ";
                 gets_s(per);
             }
             i = -1;
@@ -63,7 +63,7 @@ double CheckTypeDouble()
     double result = atof(per);
     return result;
 }
-void CreatingMatrix(int& row, int& col, double& point)
+void CreatingMatrix(int& row, int& col, double& point, bool flag = false)
 {
     cout << "Enter the number of rows of the matrix: ";
     row = CheckTypeInt();
@@ -79,8 +79,11 @@ void CreatingMatrix(int& row, int& col, double& point)
         cout << "The number of columns must be a positive number. Repeat the input: ";
         col = CheckTypeInt();
     }
-    cout << "Enter the value that you would like to fill in the matrix with: ";
-    point = CheckTypeDouble();
+    if (flag == false)
+    {
+        cout << "Enter the value that you would like to fill in the matrix with: ";
+        point = CheckTypeDouble();
+    }
 }
 void ReadingOrWritingElements(int& row, int& col, Matrix& matrix)
 {
@@ -226,11 +229,56 @@ int main()
         double point = 0;
         cout << "Laboratory work ¹1. Option ¹2" << endl;
         cout << "Creating the first matrix:" << endl;
-        CreatingMatrix(row1, col1, point);
+        int CreatingOption = 1;
+        cout << "Do you want to fill the matrix with a single value or manually?" << endl;
+        cout << "1 - Manually" << endl;
+        cout << "0 - With a single value" << endl;
+        cout << "Enter your choice : ";
+        CreatingOption = CheckTypeInt();
+        while (CreatingOption < 0 || CreatingOption > 1)
+        {
+            cout << "There is no such item in the menu. Repeat the input: ";
+            CreatingOption = CheckTypeInt();
+        }
+        if (CreatingOption == 1) CreatingMatrix(row1, col1, point, true);
+        else CreatingMatrix(row1, col1, point);
         Matrix matrix1(row1, col1, point);
+        if (CreatingOption == 1)
+        {
+            for (int i = 0; i < row1; i++)
+            {
+                for (int j = 0; j < col1; j++)
+                {
+                    cout << "Matrix[" << i << "][" << j << "] = ";
+                    matrix1(i, j) = CheckTypeDouble();
+                }
+            }
+        }
         cout << "Creating the second matrix: " << endl;
-        CreatingMatrix(row2, col2, point);
+        cout << "Do you want to fill the matrix with a single value or manually?" << endl;
+        cout << "1 - Manually" << endl;
+        cout << "0 - With a single value" << endl;
+        cout << "Enter your choice : ";
+        CreatingOption = CheckTypeInt();
+        while (CreatingOption < 0 || CreatingOption > 1)
+        {
+            cout << "There is no such item in the menu. Repeat the input: ";
+            CreatingOption = CheckTypeInt();
+        }
+        if (CreatingOption == 1) CreatingMatrix(row2, col2, point, true);
+        else CreatingMatrix(row2, col2, point, true);
         Matrix matrix2(row2, col2, point);
+        if (CreatingOption == 1)
+        {
+            for (int i = 0; i < row2; i++)
+            {
+                for (int j = 0; j < col2; j++)
+                {
+                    cout << "Matrix[" << i << "][" << j << "] = ";
+                    matrix2(i, j) = CheckTypeDouble();
+                }
+            }
+        }
         do
         {
             system("cls");

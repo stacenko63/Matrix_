@@ -84,15 +84,19 @@ public:
 	}
 	Matrix operator/(const double number)
 	{
-		Matrix temp(n, m);
-		for (int i = 0; i < n; i++)
+		if (number != 0)
 		{
-			for (int j = 0; j < m; j++)
+			Matrix temp(n, m);
+			for (int i = 0; i < n; i++)
 			{
-				temp.arr[i][j] = arr[i][j] / number;
+				for (int j = 0; j < m; j++)
+				{
+					temp.arr[i][j] = arr[i][j] / number;
+				}
 			}
+			return temp;
 		}
-		return temp;
+		else throw "Division by zero";
 	}
 	Matrix operator*(const Matrix& other)
 	{
@@ -103,7 +107,7 @@ public:
 			{
 				for (int k = 0; k < other.m; k++)
 				{
-					for (int j = 0; j < other.m; j++)
+					for (int j = 0; j < this->m; j++)
 					{
 						temp.arr[i][k] += this->arr[i][j] * other.arr[j][k];
 					}
